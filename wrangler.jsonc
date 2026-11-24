@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "monarch-credentials",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist/client",
+    "not_found_handling": "single-page-application",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "monarch-credentials",
+      // Replace with the id printed by `wrangler d1 create monarch-credentials`.
+      // Local dev works with any placeholder value.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "PUBLIC_BASE_URL": "https://verify.monarchplacements.in"
+  },
+  "observability": { "enabled": true }
+}

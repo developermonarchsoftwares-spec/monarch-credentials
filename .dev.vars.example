@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local development (never commit .dev.vars).
+# Secret used to hash IP addresses before storing them (rate limit + verification events).
+# Generate: openssl rand -hex 32
+IP_HASH_SALT=change-me-local-only
