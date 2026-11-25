@@ -64,14 +64,17 @@ const fitSize = (text: string, font: PDFFont, max: number, min: number, width: n
   return size;
 };
 
+/** Monarch bow-tie "M" mark in a 64x64 box, y-down (same path as /public/logos/*.svg). */
+const MONARCH_MARK_PATH =
+  "M14.76 14 L32 29.28 L32 35.35 L19.81 25.12 L19.81 40.15 L27.14 34.08 L30.55 36.74 L14.76 50 Z " +
+  "M49.24 14 L32 29.28 L32 35.35 L44.19 25.12 L44.19 40.15 L36.86 34.08 L33.45 36.74 L49.24 50 Z";
+
 /** Vector issuer mark (matches /public/logos/*.svg). */
-const drawLogo = (page: PDFPage, slug: string, x: number, y: number, size: number, bold: PDFFont) => {
+const drawLogo = (page: PDFPage, slug: string, x: number, y: number, size: number) => {
   const fill = slug === "softwares" ? BLUE : NAVY;
   page.drawRectangle({ x, y, width: size, height: size, color: fill });
-  page.drawRectangle({ x: x + size * 0.12, y: y + size * 0.12, width: size * 0.76, height: size * 0.76, borderColor: GOLD, borderWidth: 0.8 });
-  const m = "M";
-  const fs = size * 0.52;
-  page.drawText(m, { x: x + size / 2 - bold.widthOfTextAtSize(m, fs) / 2, y: y + size * 0.3, size: fs, font: bold, color: WHITE });
+  // drawSvgPath uses y-down coordinates from its origin, so anchor at the box's top-left.
+  page.drawSvgPath(MONARCH_MARK_PATH, { x, y: y + size, scale: size / 64, color: WHITE, borderWidth: 0 });
 };
 
 export const generateCertificatePdf = async (cert: PdfCertificate): Promise<Uint8Array> => {
@@ -101,7 +104,7 @@ export const generateCertificatePdf = async (cert: PdfCertificate): Promise<Uint
   page.drawRectangle({ x: 20, y: H - 30, width: W - 40, height: 10, color: tpl.accent });
 
   // Header
-  drawLogo(page, cert.issuerSlug, 60, H - 112, 44, sansBold);
+  drawLogo(page, cert.issuerSlug, 60, H - 112, 44);
   page.drawText(pdfSafe(cert.issuerName).toUpperCase(), { x: 112, y: H - 84, size: 15, font: sansBold, color: NAVY });
   page.drawText("MONARCH CREDENTIALS", { x: 112, y: H - 100, size: 8, font: sans, color: MUTED });
 

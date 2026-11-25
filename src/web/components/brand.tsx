@@ -5,8 +5,10 @@ import { cn } from "@/lib/utils";
 export const Mark = ({ className, tone = "navy" }: { className?: string; tone?: "navy" | "royal" }) => (
   <svg viewBox="0 0 64 64" className={cn("size-9", className)} aria-hidden>
     <rect width="64" height="64" fill={tone === "navy" ? "#101B35" : "#2457D6"} />
-    <rect x="8" y="8" width="48" height="48" fill="none" stroke="#C7A45B" strokeWidth="1.5" />
-    <text x="32" y="45" textAnchor="middle" fontFamily="Inter, Arial, sans-serif" fontWeight="700" fontSize="34" fill="#fff">M</text>
+    <path
+      fill="#fff"
+      d="M14.76 14 L32 29.28 L32 35.35 L19.81 25.12 L19.81 40.15 L27.14 34.08 L30.55 36.74 L14.76 50 Z M49.24 14 L32 29.28 L32 35.35 L44.19 25.12 L44.19 40.15 L36.86 34.08 L33.45 36.74 L49.24 50 Z"
+    />
   </svg>
 );
 
