@@ -8,11 +8,11 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-royal text-white hover:bg-royal-dark shadow-[0_1px_2px_rgb(16_27_53/0.15)]",
-        navy: "bg-navy text-white hover:bg-[#1b2a4f]",
+        primary: "bg-royal text-white hover:bg-royal-dark shadow-[0_1px_2px_rgb(0_0_0/0.15)]",
+        navy: "bg-navy text-white hover:bg-[#262626]",
         outline: "border border-line bg-white text-navy hover:bg-surface",
         ghost: "text-navy hover:bg-surface",
-        danger: "bg-bad text-white hover:bg-[#8f1c13]",
+        danger: "bg-bad text-white hover:bg-[#333333]",
         link: "text-royal underline-offset-4 hover:underline px-0",
       },
       size: { sm: "h-8 px-3", md: "h-10 px-4", lg: "h-12 px-6 text-base", icon: "h-9 w-9" },

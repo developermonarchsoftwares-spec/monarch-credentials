@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export const Mark = ({ className, tone = "navy" }: { className?: string; tone?: "navy" | "royal" }) => (
   <svg viewBox="0 0 64 64" className={cn("size-9", className)} aria-hidden>
-    <rect width="64" height="64" fill={tone === "navy" ? "#101B35" : "#2457D6"} />
+    <rect width="64" height="64" fill={tone === "navy" ? "#0a0a0a" : "#000000"} />
     <path
       fill="#fff"
       d="M14.76 14 L32 29.28 L32 35.35 L19.81 25.12 L19.81 40.15 L27.14 34.08 L30.55 36.74 L14.76 50 Z M49.24 14 L32 29.28 L32 35.35 L44.19 25.12 L44.19 40.15 L36.86 34.08 L33.45 36.74 L49.24 50 Z"

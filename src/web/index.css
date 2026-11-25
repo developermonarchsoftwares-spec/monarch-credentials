@@ -2,26 +2,28 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-navy: #101b35;
-  --color-royal: #2457d6;
-  --color-royal-dark: #1c46b0;
-  --color-tint: #eef4ff;
-  --color-gold: #c7a45b;
-  --color-ink: #172033;
-  --color-muted: #697386;
-  --color-line: #e3e8f0;
-  --color-surface: #f6f8fb;
-  --color-ok: #0f7a4d;
-  --color-ok-bg: #e8f6ef;
-  --color-bad: #b42318;
-  --color-bad-bg: #fdecea;
-  --color-warn: #8a5a00;
-  --color-warn-bg: #fff4dc;
+  /* Monochrome theme: every colour is a neutral grey. Token names are kept so
+     components don't change; status meaning comes from icons, labels and style. */
+  --color-navy: #0a0a0a;
+  --color-royal: #111111;
+  --color-royal-dark: #333333;
+  --color-tint: #f2f2f2;
+  --color-gold: #9e9e9e;
+  --color-ink: #171717;
+  --color-muted: #666666;
+  --color-line: #e5e5e5;
+  --color-surface: #f7f7f7;
+  --color-ok: #171717;
+  --color-ok-bg: #f2f2f2;
+  --color-bad: #000000;
+  --color-bad-bg: #e6e6e6;
+  --color-warn: #404040;
+  --color-warn-bg: #f2f2f2;
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
-  --shadow-soft: 0 1px 2px rgb(16 27 53 / 0.04), 0 4px 16px rgb(16 27 53 / 0.06);
-  --shadow-lift: 0 2px 4px rgb(16 27 53 / 0.05), 0 12px 32px rgb(16 27 53 / 0.1);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.05), 0 12px 32px rgb(0 0 0 / 0.1);
 }
 
 html { -webkit-text-size-adjust: 100%; }

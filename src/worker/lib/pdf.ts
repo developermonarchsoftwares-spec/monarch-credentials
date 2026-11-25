@@ -19,11 +19,12 @@ export type PdfCertificate = {
   verifyUrl: string;
 };
 
-const NAVY = rgb(0x10 / 255, 0x1b / 255, 0x35 / 255);
-const BLUE = rgb(0x24 / 255, 0x57 / 255, 0xd6 / 255);
-const GOLD = rgb(0xc7 / 255, 0xa4 / 255, 0x5b / 255);
-const TEXT = rgb(0x17 / 255, 0x20 / 255, 0x33 / 255);
-const MUTED = rgb(0x69 / 255, 0x73 / 255, 0x86 / 255);
+// Monochrome palette (names kept from the original colour theme).
+const NAVY = rgb(0x0a / 255, 0x0a / 255, 0x0a / 255);
+const BLUE = rgb(0x33 / 255, 0x33 / 255, 0x33 / 255);
+const GOLD = rgb(0x9e / 255, 0x9e / 255, 0x9e / 255);
+const TEXT = rgb(0x17 / 255, 0x17 / 255, 0x17 / 255);
+const MUTED = rgb(0x66 / 255, 0x66 / 255, 0x66 / 255);
 const WHITE = rgb(1, 1, 1);
 const BLACK = rgb(0, 0, 0);
 
