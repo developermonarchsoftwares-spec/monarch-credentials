@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 const badgeVariants = cva("inline-flex items-center gap-1.5 rounded-sm px-2 py-0.5 text-xs font-semibold", {
   variants: {
     tone: {
-      ok: "bg-ok-bg text-ok",
-      bad: "bg-bad-bg text-bad",
-      warn: "bg-warn-bg text-warn",
+      // Monochrome: status is told apart by style as well as label.
+      ok: "border border-ok bg-white text-ok",
+      bad: "bg-bad text-white",
+      warn: "border border-dashed border-warn bg-white text-warn",
       neutral: "bg-surface text-muted",
       blue: "bg-tint text-royal",
     },

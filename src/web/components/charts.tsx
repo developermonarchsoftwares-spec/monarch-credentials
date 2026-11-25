@@ -6,10 +6,10 @@ export const BarChart = ({ data, label, height = 180 }: { data: { label: string;
   return (
     <figure>
       <svg viewBox={`0 0 100 ${height / 4}`} className="w-full" style={{ height }} role="img" aria-label={`${label}. Total ${total}.`} preserveAspectRatio="none">
-        {[0.25, 0.5, 0.75, 1].map((g) => <line key={g} x1="0" x2="100" y1={(height / 4) * (1 - g) * 0.82 + 4} y2={(height / 4) * (1 - g) * 0.82 + 4} stroke="#e3e8f0" strokeWidth="0.25" vectorEffect="non-scaling-stroke" />)}
+        {[0.25, 0.5, 0.75, 1].map((g) => <line key={g} x1="0" x2="100" y1={(height / 4) * (1 - g) * 0.82 + 4} y2={(height / 4) * (1 - g) * 0.82 + 4} stroke="#e5e5e5" strokeWidth="0.25" vectorEffect="non-scaling-stroke" />)}
         {data.map((d, i) => {
           const h = (d.value / max) * (height / 4) * 0.82;
-          return <rect key={d.label} x={i * w + w * 0.2} width={w * 0.6} y={(height / 4) * 0.82 + 4 - h} height={Math.max(h, d.value ? 0.6 : 0)} fill="#2457d6" rx="0.4"><title>{`${d.label}: ${d.value}`}</title></rect>;
+          return <rect key={d.label} x={i * w + w * 0.2} width={w * 0.6} y={(height / 4) * 0.82 + 4 - h} height={Math.max(h, d.value ? 0.6 : 0)} fill="#171717" rx="0.4"><title>{`${d.label}: ${d.value}`}</title></rect>;
         })}
       </svg>
       <div className="mt-1 flex" aria-hidden>
