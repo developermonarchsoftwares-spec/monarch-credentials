@@ -41,12 +41,10 @@ export const Home = () => {
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {(data?.issuers ?? []).map((i) => (
             <article key={i.slug} className="flex flex-col rounded-lg border border-line p-7 transition-shadow hover:shadow-soft">
-              <div className="flex items-center gap-4">
-                <IssuerLogo path={i.logoPath} name={i.name} className="size-12" />
-                <div>
-                  <h3 className="text-xl font-semibold">{i.name}</h3>
-                  <p className="text-sm text-muted">{i.tagline}</p>
-                </div>
+              <div>
+                <IssuerLogo path={i.logoPath} name={i.name} className="h-12" />
+                <h3 className="sr-only">{i.name}</h3>
+                <p className="mt-3 text-sm text-muted">{i.tagline}</p>
               </div>
               <p className="mt-5 text-[15px] leading-relaxed text-ink/85">{i.description}</p>
               <ul className="mt-5 space-y-2 border-t border-line pt-5 text-sm">

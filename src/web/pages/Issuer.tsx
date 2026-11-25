@@ -32,9 +32,10 @@ export const Issuer = () => {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 sm:py-20">
-      <div className="flex items-center gap-4">
-        <IssuerLogo path={issuer.logoPath} name={issuer.name} className="size-14" />
-        <div><h1 className="text-3xl font-bold sm:text-4xl">{issuer.name}</h1><p className="text-muted">{issuer.tagline}</p></div>
+      <div>
+        <IssuerLogo path={issuer.logoPath} name={issuer.name} className="h-14" />
+        <h1 className="mt-6 text-3xl font-bold sm:text-4xl">{issuer.name}</h1>
+        <p className="text-muted">{issuer.tagline}</p>
       </div>
       <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink/85">{issuer.description}</p>
 

@@ -1,5 +1,6 @@
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
+import { PDFDocument, PDFOperator, PDFOperatorNames, StandardFonts, closePath, lineTo, moveTo, popGraphicsState, pushGraphicsState, rgb, setFillingColor, type PDFFont, type PDFPage } from "pdf-lib";
 import type { TemplateKey } from "../../shared/types";
+import { ISSUER_LOGOS } from "./logos";
 import { qrMatrix } from "./qr";
 
 export type PdfCertificate = {
@@ -25,6 +26,7 @@ const GOLD = rgb(0xc7 / 255, 0xa4 / 255, 0x5b / 255);
 const TEXT = rgb(0x17 / 255, 0x20 / 255, 0x33 / 255);
 const MUTED = rgb(0x69 / 255, 0x73 / 255, 0x86 / 255);
 const WHITE = rgb(1, 1, 1);
+const BLACK = rgb(0, 0, 0);
 
 const TEMPLATES: Record<TemplateKey, { label: string; lead: string; connector: string; accent: typeof NAVY }> = {
   training: { label: "CERTIFICATE OF COMPLETION", lead: "has successfully completed the professional training programme", connector: "", accent: NAVY },
@@ -64,14 +66,30 @@ const fitSize = (text: string, font: PDFFont, max: number, min: number, width: n
   return size;
 };
 
-/** Vector issuer mark (matches /public/logos/*.svg). */
-const drawLogo = (page: PDFPage, slug: string, x: number, y: number, size: number, bold: PDFFont) => {
-  const fill = slug === "softwares" ? BLUE : NAVY;
-  page.drawRectangle({ x, y, width: size, height: size, color: fill });
-  page.drawRectangle({ x: x + size * 0.12, y: y + size * 0.12, width: size * 0.76, height: size * 0.76, borderColor: GOLD, borderWidth: 0.8 });
-  const m = "M";
-  const fs = size * 0.52;
-  page.drawText(m, { x: x + size / 2 - bold.widthOfTextAtSize(m, fs) / 2, y: y + size * 0.3, size: fs, font: bold, color: WHITE });
+/**
+ * Draws the issuer wordmark (the same vector as /public/logos/*.svg) with its top-left at (x, top),
+ * scaled to `height` points. Returns the drawn width so callers can place content beside it.
+ * The artwork relies on the even-odd fill rule, which pdf-lib's drawSvgPath does not offer, so the
+ * M/L/Z path is emitted as raw operators.
+ */
+const drawLogo = (page: PDFPage, slug: string, x: number, top: number, height: number): number => {
+  const logo = ISSUER_LOGOS[slug];
+  if (!logo) return 0;
+  const [vx, vy, vw, vh] = logo.viewBox;
+  const scale = height / vh;
+  const ops = [pushGraphicsState(), setFillingColor(BLACK)];
+  for (const [, cmd, coords] of logo.path.matchAll(/([MLZ])\s*([^MLZ]*)/g)) {
+    if (cmd === "Z") {
+      ops.push(closePath());
+      continue;
+    }
+    const [px = 0, py = 0] = (coords ?? "").split(",").map(Number);
+    const point = [x + (px - vx) * scale, top - (py - vy) * scale] as const;
+    ops.push(cmd === "M" ? moveTo(...point) : lineTo(...point));
+  }
+  ops.push(PDFOperator.of(PDFOperatorNames.FillEvenOdd), popGraphicsState());
+  page.pushOperators(...ops);
+  return vw * scale;
 };
 
 export const generateCertificatePdf = async (cert: PdfCertificate): Promise<Uint8Array> => {
@@ -101,9 +119,9 @@ export const generateCertificatePdf = async (cert: PdfCertificate): Promise<Uint
   page.drawRectangle({ x: 20, y: H - 30, width: W - 40, height: 10, color: tpl.accent });
 
   // Header
-  drawLogo(page, cert.issuerSlug, 60, H - 112, 44, sansBold);
-  page.drawText(pdfSafe(cert.issuerName).toUpperCase(), { x: 112, y: H - 84, size: 15, font: sansBold, color: NAVY });
-  page.drawText("MONARCH CREDENTIALS", { x: 112, y: H - 100, size: 8, font: sans, color: MUTED });
+  // The wordmark already spells out the issuer name; the name stays in the PDF metadata and the body text.
+  const logoWidth = drawLogo(page, cert.issuerSlug, 60, H - 66, 40);
+  page.drawText("MONARCH CREDENTIALS", { x: 60 + logoWidth + 16, y: H - 90, size: 8, font: sans, color: MUTED });
 
   centered(page, tpl.label, H - 150, sansBold, 12, tpl.accent);
   page.drawLine({ start: { x: W / 2 - 40, y: H - 160 }, end: { x: W / 2 + 40, y: H - 160 }, thickness: 1.2, color: GOLD });

@@ -1,9 +1,11 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { generateCertificateId, normaliseCertificateId, CERTIFICATE_ID_PATTERN } from "../src/worker/lib/ids";
 import { hashPassword, verifyPassword, timingSafeEqual } from "../src/worker/lib/crypto";
 import { certificateCreateSchema, personName, studentSchema } from "../src/worker/lib/validation";
 import { generateCertificatePdf, pdfSafe, type PdfCertificate } from "../src/worker/lib/pdf";
 import { qrMatrix } from "../src/worker/lib/qr";
+import { ISSUER_LOGOS } from "../src/worker/lib/logos";
 import { buildSessionUser, canWriteIssuer, canReadIssuer } from "../src/worker/lib/rbac";
 
 describe("certificate ids", () => {
@@ -106,5 +108,12 @@ describe("pdf + qr", () => {
     const m = qrMatrix(base.verifyUrl);
     expect(m.length).toBeGreaterThan(20);
     expect(m.length).toBe(m[0]!.length);
+  });
+  it("keeps the PDF wordmark vectors identical to the public logo files", () => {
+    for (const [slug, logo] of Object.entries(ISSUER_LOGOS)) {
+      const svg = readFileSync(`public/logos/monarch-${slug}.svg`, "utf8");
+      expect(svg).toContain(`d="${logo.path}"`);
+      expect(svg).toContain(`viewBox="${logo.viewBox.join(" ")}"`);
+    }
   });
 });

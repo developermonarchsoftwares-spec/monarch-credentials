@@ -19,8 +19,9 @@ export const BrandLink = ({ light }: { light?: boolean }) => (
   </Link>
 );
 
+/** Issuer wordmarks are wide, so size them by height (e.g. "h-10") and let the width follow the artwork. */
 export const IssuerLogo = ({ path, name, className }: { path: string | null; name: string; className?: string }) =>
-  path ? <img src={path} alt={`${name} logo`} className={cn("size-10", className)} /> : <Mark className={className} />;
+  path ? <img src={path} alt={`${name} logo`} className={cn("h-10 w-auto max-w-full", className)} /> : <Mark className="size-10" />;
 
 /** QR code generated in the browser from the public verification URL only. */
 export const QrCode = ({ value, size = 144, label }: { value: string; size?: number; label?: string }) => {
