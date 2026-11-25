@@ -25,6 +25,7 @@ const GOLD = rgb(0xc7 / 255, 0xa4 / 255, 0x5b / 255);
 const TEXT = rgb(0x17 / 255, 0x20 / 255, 0x33 / 255);
 const MUTED = rgb(0x69 / 255, 0x73 / 255, 0x86 / 255);
 const WHITE = rgb(1, 1, 1);
+const BLACK = rgb(0, 0, 0);
 
 const TEMPLATES: Record<TemplateKey, { label: string; lead: string; connector: string; accent: typeof NAVY }> = {
   training: { label: "CERTIFICATE OF COMPLETION", lead: "has successfully completed the professional training programme", connector: "", accent: NAVY },
@@ -71,7 +72,7 @@ const MONARCH_MARK_PATH =
 
 /** Vector issuer mark (matches /public/logos/*.svg). */
 const drawLogo = (page: PDFPage, slug: string, x: number, y: number, size: number) => {
-  const fill = slug === "softwares" ? BLUE : NAVY;
+  const fill = slug === "softwares" ? BLACK : NAVY;
   page.drawRectangle({ x, y, width: size, height: size, color: fill });
   // drawSvgPath uses y-down coordinates from its origin, so anchor at the box's top-left.
   page.drawSvgPath(MONARCH_MARK_PATH, { x, y: y + size, scale: size / 64, color: WHITE, borderWidth: 0 });
