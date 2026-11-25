@@ -1,6 +1,7 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import type { TemplateKey } from "../../shared/types";
 import { qrMatrix } from "./qr";
+import { PLACEMENTS_LOGO_PNG_BASE64 } from "./logo-placements";
 
 export type PdfCertificate = {
   certificateId: string;
@@ -64,10 +65,14 @@ const fitSize = (text: string, font: PDFFont, max: number, min: number, width: n
   return size;
 };
 
-/** Vector issuer mark (matches /public/logos/*.svg). */
-const drawLogo = (page: PDFPage, slug: string, x: number, y: number, size: number, bold: PDFFont) => {
-  const fill = slug === "softwares" ? BLUE : NAVY;
-  page.drawRectangle({ x, y, width: size, height: size, color: fill });
+/** Issuer mark: real Monarch Placements logo (PNG); Monarch Softwares keeps its vector placeholder monogram. */
+const drawLogo = async (pdf: PDFDocument, page: PDFPage, slug: string, x: number, y: number, size: number, bold: PDFFont) => {
+  if (slug === "placements") {
+    const image = await pdf.embedPng(PLACEMENTS_LOGO_PNG_BASE64);
+    page.drawImage(image, { x, y, width: size, height: size });
+    return;
+  }
+  page.drawRectangle({ x, y, width: size, height: size, color: BLUE });
   page.drawRectangle({ x: x + size * 0.12, y: y + size * 0.12, width: size * 0.76, height: size * 0.76, borderColor: GOLD, borderWidth: 0.8 });
   const m = "M";
   const fs = size * 0.52;
@@ -101,7 +106,7 @@ export const generateCertificatePdf = async (cert: PdfCertificate): Promise<Uint
   page.drawRectangle({ x: 20, y: H - 30, width: W - 40, height: 10, color: tpl.accent });
 
   // Header
-  drawLogo(page, cert.issuerSlug, 60, H - 112, 44, sansBold);
+  await drawLogo(pdf, page, cert.issuerSlug, 60, H - 112, 44, sansBold);
   page.drawText(pdfSafe(cert.issuerName).toUpperCase(), { x: 112, y: H - 84, size: 15, font: sansBold, color: NAVY });
   page.drawText("MONARCH CREDENTIALS", { x: 112, y: H - 100, size: 8, font: sans, color: MUTED });
 
