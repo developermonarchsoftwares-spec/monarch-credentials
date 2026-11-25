@@ -26,14 +26,17 @@ docs/         DEPLOYMENT, SECURITY, TESTING, COSTS
 
 ## Local development
 
+Requires Node 20+. Works on Windows, macOS and Linux.
+
 ```bash
 npm install
-cp .dev.vars.example .dev.vars          # local secret salt
-npm run db:migrate:local
-ADMIN_EMAIL=you@example.com ADMIN_NAME="Your Name" ADMIN_PASSWORD='at-least-12-chars' npm run admin:create -- --local
-npm run dev                              # http://localhost:5173, real workerd + local D1
-npm test && npm run typecheck
+npm run setup          # creates .dev.vars, migrates the local DB, asks for your admin email/name/password
+npm run dev            # http://localhost:5173 (real workerd + local D1)
 ```
+
+For a throwaway local account instead of prompts: `npm run setup:defaults` (admin@example.com / local-dev-password-123).
+Re-running setup is safe; running it with the same email resets that admin's password.
+Tests: `npm test`, `npm run typecheck`.
 
 Sign in at `/admin/login`. Before the first publish, open **Issuers** and set each issuer's authorised signatory (name and designation). Publishing is blocked until then, because the signatory is printed on every PDF.
 

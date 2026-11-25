@@ -15,7 +15,7 @@ Copy the printed `database_id` into `wrangler.jsonc` (`d1_databases[0].database_
 ## 3. Apply migrations and create the first admin
 ```bash
 npm run db:migrate:remote
-ADMIN_EMAIL=you@example.com ADMIN_NAME="Your Name" ADMIN_PASSWORD='long unique passphrase' npm run admin:create -- --remote
+npm run admin:create -- --remote   # prompts for email, name and password
 ```
 The password is hashed locally; only the hash reaches D1. Clear it from your shell history afterwards.
 
