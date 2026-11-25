@@ -56,7 +56,7 @@ Sign in at `/admin/login`. Before the first publish, open **Issuers** and set ea
 ## Known limitations (read these)
 
 - **Names on PDFs**: the built-in PDF fonts support Latin characters only. Diacritics are folded (José → Jose); other scripts are not supported. Student names are restricted to letters, spaces, `.`, `'` and `-`.
-- **Issuer logos** `public/logos/monarch-placements.svg` (and its PDF twin `src/worker/lib/logo-placements.ts`) is the real Monarch Placements mark; the Monarch Softwares logo is still an "M" monogram placeholder in `public/logos/` and `src/worker/lib/pdf.ts`.
+- **Issuer logos** are the real Monarch Placements and Monarch Softwares marks: `public/logos/*.svg` for the web, and `src/worker/lib/logo-*.ts` (base64 PNG) for the certificate PDF. They are raster; replace with vector originals when available.
 - **Contact details** for the issuers are intentionally empty until entered in the admin UI. Nothing has been invented.
 - **Name search** is exact-match, masked, per-issuer and tightly rate limited, but anyone who knows a learner's full name can find that learner's credential. Disable it by removing the `POST /api/public/search` route if that is unacceptable.
 - **LinkedIn**: the "Add to profile" link only pre-fills LinkedIn's form. LinkedIn does not verify the credential; the page says so.
